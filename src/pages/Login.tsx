@@ -13,6 +13,7 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const { setLoggedIn, setEmail } = useContext(AppContextData);
   const [isError, setIsError] = useState("");
+
   const navigate = useNavigate();
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -24,6 +25,7 @@ export const Login: React.FC = () => {
       });
       setLoggedIn!(true);
       setEmail!(email);
+
       navigate(`/`);
     } catch (error) {
       const err = error as AxiosError;

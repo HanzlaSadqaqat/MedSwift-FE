@@ -1,6 +1,8 @@
 import { useEffect, useContext, useState } from "react";
 import { AppContextData } from "../context/AppContext";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 interface ApiResponse {
   imageUrl: string;
   name: string;
@@ -32,6 +34,12 @@ export default function ProfileDetail() {
     <div className="">
       <div className="container mx-auto py-8 px-4 flex justify-center border h-screen items-center">
         <div className="bg-white rounded-lg shadow-lg p-8 h-5/6">
+          <div className="flex justify-end cursor-pointer">
+            <FontAwesomeIcon
+              icon={faEdit}
+              className="hover:scale-150"
+            ></FontAwesomeIcon>
+          </div>
           <div className="flex items-center flex-col gap-6">
             <img
               src={result?.imageUrl}

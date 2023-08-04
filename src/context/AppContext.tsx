@@ -3,38 +3,37 @@ import { Dispatch, SetStateAction, createContext, useState } from "react";
 export interface AppContextProps {
   loggedIn: boolean;
   email: string;
-  addProduct: number;
+  userId: object;
   setLoggedIn: Dispatch<SetStateAction<boolean>> | null;
   setEmail: Dispatch<SetStateAction<string>> | null;
-  setAddProduct: Dispatch<SetStateAction<number>> | null;
+  setUserId: Dispatch<SetStateAction<object>> | null;
 }
 
 export let AppContextData = createContext<AppContextProps>({
   loggedIn: false,
   email: "",
-  addProduct: 0,
+  userId: {},
   setLoggedIn: null,
   setEmail: null,
-  setAddProduct: null,
+  setUserId: null,
 });
 
 const AppContext = (props: any) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
-  const [addProduct, setAddProduct] = useState(0);
+  const [userId, setUserId] = useState({});
 
   return (
     <AppContextData.Provider
       value={{
         loggedIn,
         email,
-        addProduct,
+        userId,
         setEmail,
         setLoggedIn,
-        setAddProduct,
+        setUserId,
       }}
     >
-      {console.log(loggedIn)}
       {props.children}
     </AppContextData.Provider>
   );

@@ -9,6 +9,7 @@ import Inventory from "../pages/Inventory";
 import ProductDetailPage from "../pages/ProductDetailPage";
 import { Profile } from "../pages/Profile";
 import ProfileDetail from "../pages/ProfileDetail";
+import AddToCart from "../pages/AddToCart";
 
 export const routes = (isLoggedIn: boolean) => {
   if (!isLoggedIn) {
@@ -17,6 +18,8 @@ export const routes = (isLoggedIn: boolean) => {
       { path: "/signup", element: <SignUp /> },
       { path: "/verification/:email", element: <VerificationCodePage /> },
       { path: "*", element: <Navigate to={"/"} /> },
+      { path: "/addtocart", element: <AddToCart /> },
+
       { path: "/", element: <HomePage /> },
       { path: "/product/detail/page", element: <ProductDetailPage /> },
     ];
@@ -28,6 +31,7 @@ export const routes = (isLoggedIn: boolean) => {
       { path: "/medicine", element: <Medicine /> },
       { path: "/product/detail/page", element: <ProductDetailPage /> },
 
+      { path: "/addtocart", element: <AddToCart /> },
       { path: "/dashboard", element: <Dashboard /> },
       { path: "*", element: <Navigate to={"/"} /> },
       { path: "/inventory", element: <Inventory /> },

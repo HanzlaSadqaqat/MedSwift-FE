@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AppContextData } from "../../context/AppContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,12 +17,18 @@ interface NavbarProp {
 interface ApiResponse {
   name: string;
   imageUrl: string;
+  _id: object;
 }
 
 export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
-  const { loggedIn, setLoggedIn, addProduct } = useContext(AppContextData);
+  const { loggedIn, setLoggedIn, setUserId, userId } =
+    useContext(AppContextData);
   const [isToggle, setIsToggle] = useState(false);
-  const [result, setResult] = useState<ApiResponse>({ name: "", imageUrl: "" });
+  const [result, setResult] = useState<ApiResponse>({
+    name: "",
+    imageUrl: "",
+    _id: {},
+  });
   const email = props.email;
 
   if (email) {
@@ -31,7 +37,11 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
     }, [email]);
     useEffect(() => {
       console.log(result);
+      setUserId!(result._id);
     }, [result]);
+    useEffect(() => {
+      console.log(userId);
+    }, [userId]);
   }
 
   const getLoginDetails: any = async () => {
@@ -119,16 +129,17 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
               </div>
             )}
 
-            <button className="relative flex bg-gray-200 text-gray-600  hover:bg-blue-400 hover:text-white  rounded-full text-2xl px-8 justify-between py-2  gap-3 items-center font-bold">
+            <Link
+              to="/addtocart"
+              className="relative flex bg-gray-200 text-gray-600  hover:bg-blue-400 hover:text-white  rounded-full text-2xl px-8 justify-between py-2  gap-3 items-center font-bold"
+            >
               <div className="relative border-r-2 border-gray-500 pr-5">
                 <FontAwesomeIcon icon={faCartShopping} />
-                <div className="absolute right-1 text-xs bg-yellow-400 text-white rounded-full w-5 flex items-center justify-center h-5 -top-3">
-                  {addProduct}
-                </div>
+                <div className="absolute right-1 text-xs bg-yellow-400 text-white rounded-full w-5 flex items-center justify-center h-5 -top-3"></div>
               </div>
 
               <div className="text-xl">$0</div>
-            </button>
+            </Link>
           </div>
         </div>
       </div>

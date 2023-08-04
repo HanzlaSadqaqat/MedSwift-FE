@@ -2,7 +2,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { AppContextData } from "../../context/AppContext";
+// import { AppContextData } from "../../context/AppContext";
 // import Rating from "./Rating";
 interface cardProp {
   children: React.ReactNode;
@@ -10,11 +10,16 @@ interface cardProp {
   name: string;
   price: number;
 }
+// interface CardData {
+//   key: string;
+//   value: string;
+// }
 export const Card: React.FC<cardProp> = (props: cardProp) => {
-  const { setAddProduct } = useContext(AppContextData);
   const addToCart = (e: React.MouseEvent) => {
     e.preventDefault();
-    setAddProduct!((count) => count + 1);
+    localStorage.setItem("name", props.name);
+    localStorage.setItem("price", `${props.price}`);
+    localStorage.setItem("imageUrl", props.imageUrl[0]);
   };
 
   return (
