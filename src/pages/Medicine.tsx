@@ -6,14 +6,16 @@ import {
   faPlusMinus,
   faWeight,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import axios, { AxiosError } from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SideBar } from "../components/Dashboard/SideBar";
 import { useNavigate } from "react-router-dom";
+import { AppContextData } from "../context/AppContext";
 
 export const Medicine = () => {
+  const { userId } = useContext(AppContextData);
   const [name, setName] = useState("");
   const [weight, setWeight] = useState("");
   const [expireDate, setExpireDate] = useState(new Date());
@@ -60,7 +62,7 @@ export const Medicine = () => {
         };
         console.log(image);
 
-        await axios.post("/medicine/upload", formData, config);
+        await axios.post(`/medicine/upload/:${userId}`, formData, config);
       }
       navigate("/");
     } catch (error) {
