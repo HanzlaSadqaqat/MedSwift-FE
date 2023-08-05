@@ -1,6 +1,6 @@
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 // import { AppContextData } from "../../context/AppContext";
 // import Rating from "./Rating";
@@ -10,10 +10,7 @@ interface cardProp {
   name: string;
   price: number;
 }
-// interface CardData {
-//   key: string;
-//   value: string;
-// }
+
 export const Card: React.FC<cardProp> = (props: cardProp) => {
   const addToCart = (e: React.MouseEvent) => {
     e.preventDefault();

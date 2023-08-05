@@ -21,7 +21,7 @@ export const SideBar: React.FC<sideProps> = (props: sideProps) => {
   };
   return (
     <div className="flex justify-between">
-      <div className="h-screen">
+      <div className="h-screen fixed">
         <div
           className={`relative ${
             open ? "w-80" : "w-16"
@@ -110,7 +110,9 @@ export const SideBar: React.FC<sideProps> = (props: sideProps) => {
           </div>
         </div>
       </div>
-      <div className="w-screen">{props.children}</div>
+      <div className={`w-screen h-screen ${open ? "pl-80" : "pl-16"}`}>
+        {props.children}
+      </div>
     </div>
   );
 };
