@@ -62,7 +62,7 @@ export const Medicine = () => {
         };
         console.log(image);
 
-        await axios.post(`/medicine/upload/:${userId}`, formData, config);
+        await axios.post(`/medicine/upload/${userId}`, formData, config);
       }
       navigate("/");
     } catch (error) {
