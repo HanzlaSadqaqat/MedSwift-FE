@@ -4,7 +4,11 @@ import { useState, useEffect, useContext } from "react";
 // import { Card } from "../components/homepage/Card";
 import axios, { AxiosError } from "axios";
 import { AppContextData } from "../context/AppContext";
-
+interface sendDataProp {
+  imageUrl: string[];
+  name: string;
+  price: number;
+}
 export const HomePage: React.FC = () => {
   const [result, setResult] = useState([]);
   const { email } = useContext(AppContextData);
@@ -14,7 +18,7 @@ export const HomePage: React.FC = () => {
 
   const getCardData = async () => {
     try {
-      const data = await axios.get("/medicine/detail");
+      const data = await axios.get(`/medicine/detail`);
       setResult(data.data);
     } catch (error) {
       const err = error as AxiosError;
@@ -29,7 +33,7 @@ export const HomePage: React.FC = () => {
       </Navbar>
       <div className="mt-24 mx-5  ">
         <div className="grid grid-cols-4">
-          {result.map((res: any) => {
+          {result.map((res: sendDataProp) => {
             return (
               <Card imageUrl={res.imageUrl} name={res.name} price={res.price}>
                 <div></div>
