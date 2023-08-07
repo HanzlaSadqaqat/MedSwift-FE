@@ -13,9 +13,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SideBar } from "../components/Dashboard/SideBar";
 import { useNavigate } from "react-router-dom";
 import { AppContextData } from "../context/AppContext";
+import LoaderSpinner from "../components/LoaderSpinner";
 
 export const Medicine = () => {
   const { userId } = useContext(AppContextData);
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [weight, setWeight] = useState("");
   const [expireDate, setExpireDate] = useState(new Date());
@@ -41,6 +43,7 @@ export const Medicine = () => {
 
     try {
       if (image) {
+        setIsLoading(true);
         const formData = new FormData();
 
         for (let i = 0; i < image.length; i++) {
@@ -64,7 +67,8 @@ export const Medicine = () => {
 
         await axios.post(`/medicine/upload/${userId}`, formData, config);
       }
-      navigate("/");
+      navigate("/inventory");
+      setIsLoading(false);
     } catch (error) {
       const err = error as AxiosError;
       console.log(err.response?.data);
@@ -78,6 +82,7 @@ export const Medicine = () => {
           <div className="font-bold text-3xl text-blue-500">
             Medicine Listing
           </div>
+          {isLoading ? <LoaderSpinner /> : ""}
           <form onSubmit={handleFormSubmit} className="gap-10 flex flex-col">
             <div className="gap-5 grid grid-flow-row grid-cols-2">
               <div className="relative flex flex-col justify-between">
