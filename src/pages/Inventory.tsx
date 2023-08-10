@@ -15,7 +15,7 @@ const ProductListing = () => {
   const { userId } = useContext(AppContextData);
   const [result, setResult] = useState<Data[]>([]);
   const [edit, setEdit] = useState(false);
-  let data: Data[] = [];
+  // let data: Data[] = [];
   useEffect(() => {
     getProducts();
   }, []);
