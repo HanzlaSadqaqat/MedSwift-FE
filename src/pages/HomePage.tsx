@@ -15,6 +15,8 @@ interface sendDataProp {
 }
 export const HomePage: React.FC = () => {
   const [result, setResult] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [itemLength, setItemLength] = useState(0);
   const { email } = useContext(AppContextData);
   const [items, setItems] = useState(() => {
     const storeItems = localStorage.getItem("items");
@@ -26,7 +28,31 @@ export const HomePage: React.FC = () => {
   }, []);
   useEffect(() => {
     localStorage.setItem("items", JSON.stringify(items));
+    const data = localStorage.getItem("items");
+    console.log(data);
+    if (data) {
+      const result = JSON.parse(data);
+      const quantity = result.map((res: any) => {
+        return res.quantity;
+      });
+      setItemLength(
+        quantity.reduce((x: number, y: number) => {
+          return x + y;
+        }, 0)
+      );
+      const price = result.map((res: any) => {
+        return res.price;
+      });
+      setTotalPrice(
+        price.reduce((x: number, y: number) => {
+          return x + y;
+        }, 0)
+      );
+    }
   }, [items]);
+  useEffect(() => {
+    console.log(itemLength);
+  }, [itemLength]);
 
   const getCardData = async () => {
     try {
@@ -37,7 +63,6 @@ export const HomePage: React.FC = () => {
       console.log(err);
     }
   };
-
   const addToCart = (
     id: string,
     name: string,
@@ -49,17 +74,15 @@ export const HomePage: React.FC = () => {
       price: price,
       imageUrl: imageUrl,
       id: id,
+      quantity: 1,
     };
     const updateItems = [...items, newItem];
     setItems(updateItems);
-    // localStorage.setItem("items", JSON.stringify(updateItems));
-
-    console.log(updateItems);
   };
 
   return (
     <div>
-      <Navbar email={email}>
+      <Navbar email={email} price={totalPrice} itemNumber={itemLength}>
         <div></div>
       </Navbar>
       <div className="mt-24 mx-5  ">
@@ -68,7 +91,7 @@ export const HomePage: React.FC = () => {
             return (
               <Link
                 to="/product/details"
-                className="border  p-4 flex flex-col gap-2 shadow-sm rounded hover:shadow-xl m-2"
+                className="border  p-4 flex flex-col gap-2 shadow-lg rounded  hover:shadow-md hover:shadow-blue-400 m-2"
               >
                 <Card
                   imageUrl={res.imageUrl}

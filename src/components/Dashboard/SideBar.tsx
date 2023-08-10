@@ -35,20 +35,22 @@ export const SideBar: React.FC<sideProps> = (props: sideProps) => {
             onClick={toggleOptions}
           />
           <div className="">
-            <div className="flex items-center gap-5 p-3">
-              <img
-                src="../../../public/images/secondary logo.png"
-                className="w-12 bg-blue-600 rounded-lg"
-                alt=""
-              />
-              <div
-                className={`text-green-400 font-bold text-2xl ${
-                  !open && "scale-0"
-                } duration-200`}
-              >
-                <span className="text-white">MedSwift</span>
+            <Link to={"/"}>
+              <div className="flex items-center gap-5 p-3">
+                <img
+                  src="../../../public/images/secondary logo.png"
+                  className="w-12 bg-blue-600 rounded-lg"
+                  alt=""
+                />
+                <div
+                  className={`text-green-400 font-bold text-2xl ${
+                    !open && "scale-0"
+                  } duration-200`}
+                >
+                  <span className="text-white">MedSwift</span>
+                </div>
               </div>
-            </div>
+            </Link>
             <div className="LIST list-none text-white gap-3 pt-10 font-semibold text-lg p-1">
               <Link to="/dashboard">
                 <li className="pl-7 p-2 hover:bg-opacity-40 hover:bg-white flex gap-3 items-center cursor-pointer rounded-lg">

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppContextData } from "../../context/AppContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,6 +13,8 @@ import axios, { AxiosError } from "axios";
 interface NavbarProp {
   children: React.ReactNode;
   email?: string;
+  price: number;
+  itemNumber: number;
 }
 interface ApiResponse {
   name: string;
@@ -23,6 +25,7 @@ interface ApiResponse {
 export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
   const { loggedIn, setLoggedIn, setUserId, userId } =
     useContext(AppContextData);
+  const navigation = useNavigate();
   const [isToggle, setIsToggle] = useState(false);
   const [result, setResult] = useState<ApiResponse>({
     name: "",
@@ -43,7 +46,9 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
       console.log(userId);
     }, [userId]);
   }
-
+  const AddToCartButton = () => {
+    navigation("/addtocart");
+  };
   const getLoginDetails: any = async () => {
     try {
       console.log(email);
@@ -129,17 +134,21 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
               </div>
             )}
 
-            <Link
-              to="/addtocart"
+            <button
+              // to="/addtocart"
+              // params={{ subTotal: props.price, subQuantity: props.itemNumber }}
+              onClick={AddToCartButton}
               className="relative flex bg-gray-200 text-gray-600  hover:bg-blue-400 hover:text-white  rounded-full text-2xl px-8 justify-between py-2  gap-3 items-center font-bold"
             >
               <div className="relative border-r-2 border-gray-500 pr-5">
                 <FontAwesomeIcon icon={faCartShopping} />
-                <div className="absolute right-1 text-xs bg-yellow-400 text-white rounded-full w-5 flex items-center justify-center h-5 -top-3"></div>
+                <div className="absolute right-1 text-xs bg-yellow-400 text-white rounded-full w-5 flex items-center justify-center h-5 -top-3">
+                  {props.itemNumber}
+                </div>
               </div>
 
-              <div className="text-xl">$0</div>
-            </Link>
+              <div className="text-xl">${props.price}</div>
+            </button>
           </div>
         </div>
       </div>
