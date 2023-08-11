@@ -2,7 +2,7 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
-interface CartData {
+export interface CartData {
   name: string;
   price: number;
   imageUrl: string[];
@@ -72,7 +72,7 @@ export default function AddToCart(props: CardProps) {
                   </div>
                   <div className="flex gap-5 items-center mt-2">
                     <p className="text-gray-600 mb-2 flex items-center font-bold text-xl">
-                      ${data.newPrice == null ? data.price : data.newPrice}
+                      ${data.newPrice == 0 ? data.price : data.newPrice}
                     </p>
                     <input
                       type="number"

@@ -15,6 +15,7 @@ interface NavbarProp {
   email?: string;
   price: number;
   itemNumber: number;
+  newPrice: number | null;
 }
 interface ApiResponse {
   name: string;
@@ -27,13 +28,19 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
     useContext(AppContextData);
   const navigation = useNavigate();
   const [isToggle, setIsToggle] = useState(false);
+  // const [data, setData] = useState<CartData[]>([]);
   const [result, setResult] = useState<ApiResponse>({
     name: "",
     imageUrl: "",
     _id: {},
   });
   const email = props.email;
-
+  // useEffect(() => {
+  //   const result = localStorage.getItem("items");
+  //   const data = result ? JSON.parse(result) : [];
+  //   console.log(data);
+  //   setData(data);
+  // }, []);
   if (email) {
     useEffect(() => {
       getLoginDetails();
@@ -147,7 +154,9 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
                 </div>
               </div>
 
-              <div className="text-xl">${props.price}</div>
+              <div className="text-xl">
+                ${props.newPrice === 0 ? props.price : props.newPrice}
+              </div>
             </button>
           </div>
         </div>
