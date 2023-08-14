@@ -95,7 +95,7 @@ export const Login: React.FC = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="border-2 p-1 w-72 relative top-1 hover:bg-secondary transition duration-200 ease-out hover:ease-in hover:text-white font-bold"
+                className="border-2 hover:border-secondary border-gray-400 p-1 w-72 relative top-1 hover:bg-secondary bg-white transition duration-200 ease-out hover:text-white hover:ease-in  font-bold"
               >
                 Login
               </button>

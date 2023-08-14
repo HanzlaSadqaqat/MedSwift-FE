@@ -3,13 +3,15 @@ import { Navbar } from "../components/homepage/Navbar";
 import { useState, useEffect, useContext } from "react";
 // import { Card } from "../components/homepage/Card";
 import axios, { AxiosError } from "axios";
-import { AppContextData } from "../context/AppContext";
+// import { AppContextData } from "../context/AppContext";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { AppContextData } from "../context/AppContext";
 interface sendDataProp {
   imageUrl: string[];
   name: string;
+
   price: number;
   _id: string;
 }
@@ -22,11 +24,11 @@ interface getData {
 }
 export const HomePage: React.FC = () => {
   const [result, setResult] = useState([]);
+
   const [totalPrice, setTotalPrice] = useState(0);
   const [itemLength, setItemLength] = useState(0);
   const [newPrice, setNewPrice] = useState(null);
   const { email } = useContext(AppContextData);
-  const [scroll, setScroll] = useState("");
   const [items, setItems] = useState(() => {
     const storeItems = localStorage.getItem("items");
     return storeItems ? JSON.parse(storeItems) : [];
@@ -66,9 +68,6 @@ export const HomePage: React.FC = () => {
       );
     }
   }, [items]);
-  window.addEventListener("scroll", () => {
-    setScroll("scale-0");
-  });
 
   const getCardData = async () => {
     try {
@@ -87,13 +86,11 @@ export const HomePage: React.FC = () => {
   ) => {
     const quantity = 1;
     const data = localStorage.getItem("items");
+    console.log(data);
     if (data) {
       const getData = JSON.parse(data);
       console.log(getData);
       const index = getData.findIndex((res: getData) => {
-        // if (res.id === id) {
-        //   return index;
-        // }
         return res.id === id;
       });
 
@@ -116,21 +113,15 @@ export const HomePage: React.FC = () => {
         setItems(updateItems);
       }
     }
-    // const newItem = {
-    //   name: name,
-    //   price: price,
-    //   imageUrl: imageUrl,
-    //   id: id,
-    //   quantity: quantity,
-    //   newPrice: price * quantity,
-    // };
-    // const updateItems = [...items, newItem];
-    // setItems(updateItems);
+  };
+  const productDetail = (productId: string) => {
+    const getProduct = result.filter((res: any) => res._id === productId);
+    localStorage.setItem("product", JSON.stringify(getProduct));
   };
 
   return (
-    <div>
-      <div className="relative">
+    <div className="bg-gray-100 p-4">
+      <div className="">
         <Navbar
           email={email}
           price={totalPrice}
@@ -140,13 +131,14 @@ export const HomePage: React.FC = () => {
           <div></div>
         </Navbar>
       </div>
-      <div className="mt-24 mx-5">
+      <div className="mt-24 mx-5 ">
         <div className="grid grid-cols-4">
           {result.map((res: sendDataProp) => {
             return (
               <Link
                 to="/product/details"
-                className={`border  p-4 flex flex-col gap-2 shadow-lg rounded  hover:shadow-md m-2 bg-white hover:scale-0 hover:${scroll}`}
+                onClick={() => productDetail(res._id)}
+                className={`border  p-4 flex flex-col gap-2   m-2 bg-white hover:scale-105 shadow-md `}
               >
                 <Card
                   imageUrl={res.imageUrl}
@@ -155,16 +147,19 @@ export const HomePage: React.FC = () => {
                   id={res._id}
                 >
                   <div className="">
-                    <div className="flex gap-3 justify-center">
+                    <div className="flex gap-3 justify-center ">
                       <button
                         onClick={(e) => {
                           e.preventDefault();
                           addToCart(res._id, res.name, res.price, res.imageUrl);
                         }}
-                        className="px-4 w-full rounded flex justify-center py-2 bg-blue-400 hover:bg-blue-500 transition duration-200 text-white font-bold gap-2 items-center"
+                        className={`transition-bg border z-0 before:content-[''] hover:text-white border-blue-300 hover:border-blue px-4 w-full rounded-sm flex justify-center py-2 bg-blue-400 hover:bg-blue-500 transition duration-200 text-white font-bold gap-2 items-center hover:-tracking-tighter`}
                       >
-                        <FontAwesomeIcon icon={faCartShopping} />
-                        Add to cart
+                        <div className="relative flex justify-center items-center gap-2 ">
+                          <FontAwesomeIcon icon={faCartShopping} />
+
+                          <h3>Add to cart</h3>
+                        </div>
                       </button>
                     </div>
                   </div>

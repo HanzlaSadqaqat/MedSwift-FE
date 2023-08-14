@@ -14,7 +14,7 @@ interface cardProp {
 
 export const Card: React.FC<cardProp> = (props: cardProp) => {
   return (
-    <div className="">
+    <div className="font-roboto-100 font-customa">
       <div className="CARDS">
         <div className=" flex justify-center ">
           <img
