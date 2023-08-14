@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        custom: ["Bricolage Grotesque", "sans-serif"],
+      },
       colors: {
         primary: "#0984e3",
         secondary: "#74b9ff",

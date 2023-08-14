@@ -19,9 +19,9 @@ export const routes = (isLoggedIn: boolean) => {
       { path: "/verification/:email", element: <VerificationCodePage /> },
       { path: "*", element: <Navigate to={"/"} /> },
       { path: "/addtocart", element: <AddToCart /> },
+      { path: "/product/details", element: <ProductDetailPage /> },
 
       { path: "/", element: <HomePage /> },
-      { path: "/product/detail/page", element: <ProductDetailPage /> },
     ];
   } else {
     return [
@@ -29,7 +29,8 @@ export const routes = (isLoggedIn: boolean) => {
       { path: "/profile", element: <Profile /> },
       { path: "/", element: <HomePage /> },
       { path: "/medicine", element: <Medicine /> },
-      { path: "/product/detail/page", element: <ProductDetailPage /> },
+
+      { path: "/product/details", element: <ProductDetailPage /> },
 
       { path: "/addtocart", element: <AddToCart /> },
       { path: "/dashboard", element: <Dashboard /> },

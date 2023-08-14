@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
   faCartShopping,
+  faSignIn,
   faSignOut,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
@@ -35,19 +36,15 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
     _id: {},
   });
   const email = props.email;
-  // useEffect(() => {
-  //   const result = localStorage.getItem("items");
-  //   const data = result ? JSON.parse(result) : [];
-  //   console.log(data);
-  //   setData(data);
-  // }, []);
+  useEffect(() => {}, []);
   if (email) {
     useEffect(() => {
       getLoginDetails();
     }, [email]);
     useEffect(() => {
-      console.log(result);
-      setUserId!(result._id);
+      localStorage.setItem("loginDetail", JSON.stringify(result));
+      const data = localStorage.getItem("loginDetail");
+      if (data) setUserId!(result._id);
     }, [result]);
     useEffect(() => {
       console.log(userId);
@@ -58,7 +55,6 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
   };
   const getLoginDetails: any = async () => {
     try {
-      console.log(email);
       const response = await axios.get(`/auth/login/details/${email}`);
       setResult(response.data);
     } catch (error) {
@@ -72,16 +68,20 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
 
   return (
     <div className="">
-      <div className="fixed top-0 left-0 right-0 h-16 border bg-white m-0 p-0 flex shadow-md justify-center">
+      <div className="fixed top-0 left-0 right-0 h-16 border bg-white m-0 p-0 flex shadow-md justify-center z-10">
         <div id="navBar" className="flex justify-between w-11/12">
-          <Link to="/" className="MEDSWIFT_LOGO flex items-center">
+          <Link
+            to="/"
+            className="MEDSWIFT_LOGO flex items-center hover:scale-105"
+          >
             <img
               src="../../public/images/medSwift logo.png"
               alt=""
               className="h-12"
             />
             <div className="text-green-500 font-extrabold text-2xl mx-1 flex items-center">
-              MED<span className="text-blue-500">SWIFT</span>
+              MED
+              <span className="text-blue-500">SWIFT</span>
             </div>
           </Link>
 
@@ -113,8 +113,9 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
                       <Link
                         to="/"
                         onClick={() => setLoggedIn!(false as boolean)}
-                        className="flex gap-3 items-center"
+                        className="flex gap-3 items-center "
                       >
+                        {/* <div className="before:content-[''] before:absolute w-10 before:h-10 before:bg-red"></div> */}
                         <FontAwesomeIcon icon={faSignOut} className="h-5" />
                         <li>Log Out</li>
                       </Link>
@@ -124,17 +125,26 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
               </div>
             ) : (
               <div className="flex gap-2">
-                <div>
+                <div className="">
                   <Link to="/login">
-                    <div className=" px-5 py-2 rounded-3xl my-3 hover:bg-slate-200 transition duration-200">
-                      Log in
+                    <div className="border border-blue-400 transition-bg before:content-[''] z-0  px-5 py-2 rounded-3xl my-3 hover:text-white transition duration-200 items-center gap-2 overflow-hidden">
+                      <div className="relative font-bold text-md z-10 flex gap-2 items-center ">
+                        <FontAwesomeIcon icon={faSignIn} className="relative" />
+                        <div>Log in</div>
+                      </div>
                     </div>
                   </Link>
                 </div>
                 <div>
                   <Link to="/signup">
-                    <div className="bg-gray-200 px-5 py-2 rounded-3xl my-3 hover:bg-slate-300 transition duration-200">
-                      Sign up
+                    <div className="border border-blue-400 transition-bg before:content-[''] z-0  px-5 py-2 rounded-3xl my-3  hover:text-white  transition duration-200 flex gap-2 items-center ">
+                      <div className="flex gap-2 items-center">
+                        <FontAwesomeIcon
+                          icon={faSignOut}
+                          className="h-5 relative"
+                        />
+                        <div className="relative">Sign up</div>
+                      </div>
                     </div>
                   </Link>
                 </div>
@@ -145,7 +155,7 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
               // to="/addtocart"
               // params={{ subTotal: props.price, subQuantity: props.itemNumber }}
               onClick={AddToCartButton}
-              className="relative flex bg-gray-200 text-gray-600  hover:bg-blue-400 hover:text-white  rounded-full text-2xl px-8 justify-between py-2  gap-3 items-center font-bold"
+              className="relative flex bg-gray-200 text-gray-600  hover:bg-blue-400 hover:text-white duration-300  rounded-full text-2xl px-8 justify-between py-2  gap-3 items-center font-bold"
             >
               <div className="relative border-r-2 border-gray-500 pr-5">
                 <FontAwesomeIcon icon={faCartShopping} />

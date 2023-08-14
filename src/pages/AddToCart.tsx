@@ -1,5 +1,3 @@
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
 export interface CartData {
@@ -10,15 +8,33 @@ export interface CartData {
   quantity: number;
   newPrice: number;
 }
-interface CardProps {
-  subTotal: number;
-  subQuantity: number;
-}
-export default function AddToCart(props: CardProps) {
+
+export default function AddToCart() {
   const [data, setData] = useState<CartData[]>([]);
+  const [subQuantity, setSubQuantity] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
   useEffect(() => {
     getAddToCartData();
   }, []);
+  useEffect(() => {
+    const quantity = data.map((res: any) => {
+      return res.quantity;
+    });
+    const totalPrice = data.map((res: any) => {
+      return res.newPrice;
+    });
+
+    setSubQuantity(
+      quantity.reduce((x: number, y: number) => {
+        return x + y;
+      }, 0)
+    );
+    setSubTotal(
+      totalPrice.reduce((x: number, y: number) => {
+        return x + y;
+      }, 0)
+    );
+  }, [data]);
   const getAddToCartData = () => {
     const getData = localStorage.getItem("items");
     if (getData) {
@@ -39,7 +55,6 @@ export default function AddToCart(props: CardProps) {
   ) => {
     const getData = localStorage.getItem("items");
     const data = getData ? JSON.parse(getData) : [];
-    console.log(data);
 
     const updatedData = data.findIndex((data: any) => data.id === productId);
     console.log(updatedData);
@@ -53,71 +68,92 @@ export default function AddToCart(props: CardProps) {
 
   return (
     <div>
-      <div className="container mx-auto mt-8 flex">
-        <div className="p-5 w-full">
-          <h1 className="text-3xl font-semibold mb-4">Add to Cart Page</h1>
-          {data.map((data: CartData) => {
-            return (
-              <div className="gap-4 mt-4">
-                <div className="p-4 border rounded-md flex w-full justify-between bg-slate-50">
-                  <div className="flex gap-3 items-center">
-                    <img
-                      src={data.imageUrl[0]}
-                      className="w-10 h-10 rounded-full border-2"
-                      alt=""
-                    />
-                    <h2 className="text-lg font-semibold flex items-center">
-                      {data.name}
-                    </h2>
-                  </div>
-                  <div className="flex gap-5 items-center mt-2">
-                    <p className="text-gray-600 mb-2 flex items-center font-bold text-xl">
-                      ${data.newPrice == 0 ? data.price : data.newPrice}
-                    </p>
-                    <input
-                      type="number"
-                      min={1}
-                      max={99}
-                      value={data.quantity}
-                      className=" border rounded-md p-2 w-20  px-4 py-2 "
-                      onChange={(e) =>
-                        changeItemNumber(
-                          data.id,
-                          parseInt(e.target.value),
-                          data.price
-                        )
-                      }
-                    ></input>
-                    <div className="flex items-center">
-                      <FontAwesomeIcon
-                        icon={faCircleXmark}
-                        className=""
-                        onClick={() => removeItem(data.id)}
+      <div className="container mx-auto mt-8 flex flex-wrap">
+        <div className="p-5 w-8/12">
+          <h1 className="text-3xl font-semibold mb-4">Your Cart</h1>
+          <div className=" p-4">
+            <h3></h3>
+            {data.map((data: CartData) => {
+              return (
+                <div className="gap-4 flex border-b">
+                  <div className="p-4  flex w-full justify-between flex-wrap">
+                    <div className="flex gap-3 items-center">
+                      <img
+                        src={data.imageUrl[0]}
+                        className="w-16 h-16 "
+                        alt=""
                       />
+                      <h2 className="text-lg font-semibold flex items-center">
+                        {data.name}
+                      </h2>
+                    </div>
+                    <div className="flex gap-5 items-center mt-2">
+                      <p className="text-gray-600 mb-2 flex items-center  text-xl">
+                        ${data.newPrice == 0 ? data.price : data.newPrice}
+                      </p>
+                      <input
+                        type="number"
+                        min={1}
+                        max={99}
+                        value={data.quantity}
+                        className=" border rounded-sm p-2 w-20  px-4 py-2 "
+                        onChange={(e) =>
+                          changeItemNumber(
+                            data.id,
+                            parseInt(e.target.value),
+                            data.price
+                          )
+                        }
+                      ></input>
+                      <button
+                        className="flex items-center bg-blue-400 py-2 px-4 hover:bg-white text-white hover:text-black border border-blue-400 rounded-sm duration-300"
+                        onClick={() => removeItem(data.id)}
+                      >
+                        {/* <FontAwesomeIcon
+                          icon={faCircleXmark}
+                          className=""
+                          onClick={() => removeItem(data.id)}
+                        /> */}
+                        Remove
+                      </button>
                     </div>
                   </div>
+                  <hr />
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
-        <div className="mt-8 p-5 w-full flex flex-col text-center items-center">
+        <div className="mt-8 p-5 w-96 relative flex flex-col text-center items-center ">
           <h2 className="text-xl font-semibold mb-2">Shopping Cart</h2>
-          <div className="bg-gray-100 p-4 w-4/6 rounded">
-            <div>
-              <h3 className="font-bold ">Grand Total: </h3>
-              <span>{props.subTotal}</span>
+          <div className="bg-gray-100 p-4 w-full rounded-sm flex flex-col gap-3 font-normal justify-center">
+            <div className="flex justify-between">
+              <h3>Total Price:</h3>
+              <span>${subTotal}</span>
             </div>
-            <div>
+            <div className="flex justify-between">
               <h3>Quantity:</h3>
+              <span>{subQuantity}</span>
             </div>
-            <div>
-              <h3>Total:</h3>
+
+            <div className="flex justify-between">
+              <h3>Tax:</h3>
+              <span>-{0}</span>
             </div>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white px-7 py-1.5 rounded-md">
+            <hr className="border-black mt-5" />
+            <div className="flex justify-between font-bold">
+              <h3 className="">Grand Total:</h3>
+              <span>${subTotal}</span>
+            </div>
+            {/* <button className="bg-blue-500 hover:bg-white hover:text-black hover:border-blue-400 border text-white px-7 py-1.5 rounded-sm duration-300">
               Buy Now
-            </button>
+            </button> */}
+            <div>
+              <button className="transition-bg text-white font-bold py-2 px-4 rounded-full  w-5/6">
+                Click & Buy{" "}
+              </button>
+            </div>
           </div>
         </div>
       </div>
