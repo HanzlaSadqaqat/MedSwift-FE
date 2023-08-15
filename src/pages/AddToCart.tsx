@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
+import { useContext, useEffect, useState } from "react";
+import { AppContextData } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 export interface CartData {
   name: string;
@@ -13,6 +16,8 @@ export default function AddToCart() {
   const [data, setData] = useState<CartData[]>([]);
   const [subQuantity, setSubQuantity] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
+  const { userId, address } = useContext(AppContextData);
+  const navigate = useNavigate();
   useEffect(() => {
     getAddToCartData();
   }, []);
@@ -65,7 +70,32 @@ export default function AddToCart() {
     setData(data);
     localStorage.setItem("items", JSON.stringify(data));
   };
+  const buyNow = async () => {
+    try {
+      if (!userId) {
+        console.log(typeof userId);
+        return navigate("/login");
+      } else {
+        if (!address) return navigate("/profile");
+        data.map(async (res: CartData) => {
+          const productId = res.id;
+          const quantity = res.quantity;
+          const price = res.newPrice;
+          const response = await axios.post("/orders", {
+            productId,
+            quantity,
+            userId,
+            price,
+          });
+          return response.data;
+        });
+      }
+    } catch (error) {
+      const err = error as AxiosError;
 
+      console.log(err);
+    }
+  };
   return (
     <div>
       <div className="container mx-auto mt-8 flex flex-wrap">
@@ -146,11 +176,14 @@ export default function AddToCart() {
               <h3 className="">Grand Total:</h3>
               <span>${subTotal}</span>
             </div>
-            {/* <button className="bg-blue-500 hover:bg-white hover:text-black hover:border-blue-400 border text-white px-7 py-1.5 rounded-sm duration-300">
-              Buy Now
-            </button> */}
+
             <div>
-              <button className="transition-bg text-white font-bold py-2 px-4 rounded-full  w-5/6">
+              <button
+                className="transition-bg text-white font-bold py-2 px-4 rounded-full  w-5/6"
+                onClick={() => {
+                  buyNow();
+                }}
+              >
                 Click & Buy{" "}
               </button>
             </div>

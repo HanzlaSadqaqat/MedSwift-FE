@@ -62,14 +62,17 @@ export const SideBar: React.FC<sideProps> = (props: sideProps) => {
                   <div className={`${!open && "scale-0"}`}>Dashboard</div>
                 </li>
               </Link>
-              <li className="pl-7 p-2 hover:bg-opacity-40 hover:bg-white flex gap-3 items-center cursor-pointer rounded-lg">
-                <FontAwesomeIcon
-                  icon={faDolly}
-                  className={`h-7 relative w-10 right-4`}
-                  onClick={() => setOpen(true)}
-                />
-                <div className={`${!open && "scale-0"}`}>Orders</div>
-              </li>
+              <Link to={"/orders"}>
+                <li className="pl-7 p-2 hover:bg-opacity-40 hover:bg-white flex gap-3 items-center cursor-pointer rounded-lg">
+                  <FontAwesomeIcon
+                    icon={faDolly}
+                    className={`h-7 relative w-10 right-4`}
+                    onClick={() => setOpen(true)}
+                  />
+                  <div className={`${!open && "scale-0"}`}>Orders</div>
+                </li>
+              </Link>
+
               <Link to="/products">
                 <li className="pl-7 p-2 hover:bg-opacity-40 hover:bg-white flex gap-3 items-center cursor-pointer rounded-lg">
                   <FontAwesomeIcon

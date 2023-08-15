@@ -10,6 +10,7 @@ import ProductDetailPage from "../pages/ProductDetailPage";
 import { Profile } from "../pages/Profile";
 import ProfileDetail from "../pages/ProfileDetail";
 import AddToCart from "../pages/AddToCart";
+import Orders from "../pages/Orders";
 
 export const routes = (isLoggedIn: boolean) => {
   if (!isLoggedIn) {
@@ -26,6 +27,7 @@ export const routes = (isLoggedIn: boolean) => {
   } else {
     return [
       { path: "/profile/detail", element: <ProfileDetail /> },
+      { path: "/orders", element: <Orders /> },
       { path: "/profile", element: <Profile /> },
       { path: "/", element: <HomePage /> },
       { path: "/medicine", element: <Medicine /> },
