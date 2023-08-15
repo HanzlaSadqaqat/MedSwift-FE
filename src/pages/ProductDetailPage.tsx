@@ -25,6 +25,7 @@ export default function ProductDetailPage() {
   const [itemLength, setItemLength] = useState(0);
   const [newPrice, setNewPrice] = useState(null);
   const { email } = useContext(AppContextData);
+  const [image, setImage] = useState("");
   const [product, setProduct] = useState<productDetail | null>(null);
   const [items, setItems] = useState(() => {
     const storeItems = localStorage.getItem("items");
@@ -128,7 +129,7 @@ export default function ProductDetailPage() {
               <div className="w-full md:w-1/2 lg:w-1/3 h-full">
                 <div className="border  h-3/4 overflow-hidden flex justify-center">
                   <img
-                    src={product.imageUrl[0]}
+                    src={image ? image : product.imageUrl[0]}
                     alt="Product Image"
                     className="w-full h-full mb-4 p-5 hover:border hover:scale-125"
                   />
@@ -139,7 +140,8 @@ export default function ProductDetailPage() {
                       <img
                         src={image}
                         alt="Product Image 2"
-                        className=" h-24 hover:border border-black hover:scale-150"
+                        onClick={() => setImage(image)}
+                        className=" h-24 hover:border border-black hover:scale-110 shadow-md"
                       />
                     );
                   })}

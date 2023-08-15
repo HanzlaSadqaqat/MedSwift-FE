@@ -21,11 +21,12 @@ interface NavbarProp {
 interface ApiResponse {
   name: string;
   imageUrl: string;
-  _id: object;
+  _id: string;
+  address: string;
 }
 
 export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
-  const { loggedIn, setLoggedIn, setUserId, userId } =
+  const { loggedIn, setLoggedIn, setUserId, userId, setAddress } =
     useContext(AppContextData);
   const navigation = useNavigate();
   const [isToggle, setIsToggle] = useState(false);
@@ -33,7 +34,8 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
   const [result, setResult] = useState<ApiResponse>({
     name: "",
     imageUrl: "",
-    _id: {},
+    _id: "",
+    address: "",
   });
   const email = props.email;
   useEffect(() => {}, []);
@@ -44,7 +46,11 @@ export const Navbar: React.FC<NavbarProp> = (props: NavbarProp) => {
     useEffect(() => {
       localStorage.setItem("loginDetail", JSON.stringify(result));
       const data = localStorage.getItem("loginDetail");
-      if (data) setUserId!(result._id);
+      if (data) {
+        console.log(data);
+        setUserId!(result._id);
+        setAddress!(result.address);
+      }
     }, [result]);
     useEffect(() => {
       console.log(userId);
