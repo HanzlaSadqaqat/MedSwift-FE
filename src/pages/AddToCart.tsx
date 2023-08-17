@@ -10,10 +10,12 @@ export interface CartData {
   id: string;
   quantity: number;
   newPrice: number;
+  shopId: string;
 }
 
 export default function AddToCart() {
   const [data, setData] = useState<CartData[]>([]);
+  const [isError, setIsError] = useState("");
   const [subQuantity, setSubQuantity] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
   const { userId, address } = useContext(AppContextData);
@@ -73,26 +75,31 @@ export default function AddToCart() {
   const buyNow = async () => {
     try {
       if (!userId) {
-        console.log(typeof userId);
         return navigate("/login");
       } else {
+        console.log(data);
         if (!address) return navigate("/profile");
         data.map(async (res: CartData) => {
           const productId = res.id;
           const quantity = res.quantity;
           const price = res.newPrice;
-          const response = await axios.post("/orders", {
-            productId,
-            quantity,
-            userId,
-            price,
-          });
-          return response.data;
+          try {
+            const response = await axios.post("/orders", {
+              productId,
+              quantity,
+              customerId: userId,
+              price,
+            });
+            return response.data;
+          } catch (error) {
+            const err = error as AxiosError;
+            setIsError(`${err.response?.data}`);
+            console.log(err.response?.data);
+          }
         });
       }
     } catch (error) {
       const err = error as AxiosError;
-
       console.log(err);
     }
   };
@@ -148,6 +155,12 @@ export default function AddToCart() {
                       </button>
                     </div>
                   </div>
+                  {isError ? (
+                    <div className="text-red-600">{isError}</div>
+                  ) : (
+                    <></>
+                  )}
+
                   <hr />
                 </div>
               );

@@ -4,7 +4,7 @@ import { SideBar } from "../components/Dashboard/SideBar";
 import { AppContextData } from "../context/AppContext";
 interface Data {
   _id: string;
-  userId: object;
+  userId: string;
   name: string;
   quantity: number;
   price: number;
@@ -41,7 +41,6 @@ const ProductListing = () => {
 
   const handleEdit = async (id: any, price: number, quantity: number) => {
     setEdit(!edit);
-    console.log(quantity);
     try {
       const response = await axios.patch(`medicine/edit/${id}`, {
         quantity,
@@ -83,7 +82,7 @@ const ProductListing = () => {
                 >
                   <div className=" flex w-4/5  justify-between items-center">
                     {/* <tr className="text-xl font-bold mb-2">{res.name}</tr>
-                    <tr className="text-gray-500 mb-2">{res.description}</tr>
+                    <tr className="text-gray-5007 mb-2">{res.description}</tr>
                     <tr className="text-gray-600">{res.quantity}</tr>
                     <tr className="text-gray-600">${res.price}</tr> */}
 
