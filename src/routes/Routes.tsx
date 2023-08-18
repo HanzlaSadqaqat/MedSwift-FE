@@ -21,6 +21,7 @@ export const routes = (isLoggedIn: boolean) => {
       { path: "*", element: <Navigate to={"/"} /> },
       { path: "/addtocart", element: <AddToCart /> },
       { path: "/product/details", element: <ProductDetailPage /> },
+      { path: "/orders", element: <Orders /> },
 
       { path: "/", element: <HomePage /> },
     ];
