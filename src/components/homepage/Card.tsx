@@ -24,7 +24,9 @@ export const Card: React.FC<cardProp> = (props: cardProp) => {
           />
         </div>
         <div className="flex flex-col gap-2 items-center">
-          <div className="Medicine_Name font-bold text-xl">{props.name}</div>
+          <div className="Medicine_Name font-bold text-xl h-14 text-center overflow-hidden">
+            {props.name}
+          </div>
           <div className="Rating_stars "></div>
           <div className=" text-3xl">{props.price}$</div>
         </div>

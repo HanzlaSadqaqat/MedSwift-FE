@@ -4,7 +4,7 @@ export default function Dashboard() {
   return (
     <div>
       <SideBar>
-        <div></div>
+        <div>Dashboard</div>
       </SideBar>
     </div>
   );

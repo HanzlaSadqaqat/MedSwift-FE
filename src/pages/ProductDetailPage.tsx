@@ -1,9 +1,9 @@
 import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/homepage/Navbar";
 import { AppContextData } from "../context/AppContext";
-
 interface productDetail {
   name: string;
   description: string;
@@ -32,6 +32,7 @@ export default function ProductDetailPage() {
 
     return storeItems ? JSON.parse(storeItems) : [];
   });
+  const navigate = useNavigate();
   // name: "",
   // description: "",
   // weight: "",
@@ -98,6 +99,7 @@ export default function ProductDetailPage() {
         console.log(getData);
         getData[index].newPrice = price * getData[index].quantity;
         setItems(getData);
+        navigate("/addtocart");
       } else {
         const newItem = {
           name: name,
@@ -153,11 +155,11 @@ export default function ProductDetailPage() {
                 <p className="text-red-600 text-xl mb-4">
                   Price: ${product.price}
                 </p>
-                <p className="text-gray-700 text-lg ">
+                <p className="text-gray-700 text-lg h-3/6 overflow-y-scroll">
                   <h4 className="font-medium">Description:</h4>{" "}
                   {product.description}
                 </p>
-                <span className="relative top-2/4 flex gap-3">
+                <span className="relative  flex gap-3 mt-10">
                   <button
                     onClick={(e) => {
                       e.preventDefault();
