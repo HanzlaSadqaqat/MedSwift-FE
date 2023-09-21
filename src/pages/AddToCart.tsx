@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AppContextData } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export interface CartData {
   name: string;
@@ -15,7 +16,7 @@ export interface CartData {
 
 export default function AddToCart() {
   const [data, setData] = useState<CartData[]>([]);
-  const [isError, setIsError] = useState("");
+  const [isError, setIsError] = useState([""]);
   const [subQuantity, setSubQuantity] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
   const { userId, address } = useContext(AppContextData);
@@ -72,6 +73,9 @@ export default function AddToCart() {
     setData(data);
     localStorage.setItem("items", JSON.stringify(data));
   };
+  useEffect(() => {
+    console.log(isError);
+  }, [isError]);
   const buyNow = async () => {
     try {
       if (!userId) {
@@ -90,10 +94,11 @@ export default function AddToCart() {
               customerId: userId,
               price,
             });
+            navigate("/checkout");
             return response.data;
           } catch (error) {
             const err = error as AxiosError;
-            setIsError(`${err.response?.data}`);
+            setIsError([...isError, `${err.response?.data}`]);
             console.log(err.response?.data);
           }
         });
@@ -120,7 +125,7 @@ export default function AddToCart() {
                         className="w-16 h-16 "
                         alt=""
                       />
-                      <h2 className="text-lg font-semibold flex items-center">
+                      <h2 className="text-lg font-semibold flex  w-40 h-20 overflow-hidden">
                         {data.name}
                       </h2>
                     </div>
@@ -190,16 +195,14 @@ export default function AddToCart() {
               <span>${subTotal}</span>
             </div>
 
-            <div>
-              <button
-                className="transition-bg text-white font-bold py-2 px-4 rounded-full  w-5/6"
-                onClick={() => {
-                  buyNow();
-                }}
-              >
-                Click & Buy{" "}
-              </button>
-            </div>
+            <button
+              className="transition-bg text-white font-bold py-2 px-4 rounded-full  w-5/6"
+              onClick={() => {
+                buyNow();
+              }}
+            >
+              Click & Buy{" "}
+            </button>
           </div>
         </div>
       </div>

@@ -92,7 +92,7 @@ const ProductListing = () => {
                         className="w-10 h-10 rounded-full"
                         alt=""
                       />
-                      <div className="w-28 mb-2 overflow-hidden border-gray-300 rounded text-center">
+                      <div className="w-32 mb-2 overflow-hidden h-7  border-gray-300 rounded text-center">
                         {res.name}
                       </div>
                     </div>

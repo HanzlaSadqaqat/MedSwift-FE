@@ -2,7 +2,8 @@ import { useEffect, useContext, useState } from "react";
 import { AppContextData } from "../context/AppContext";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 interface ApiResponse {
   imageUrl: string;
   name: string;
@@ -32,7 +33,13 @@ export default function ProfileDetail() {
 
   return (
     <div className="">
-      <div className="container mx-auto py-8 px-4 flex justify-center border h-screen items-center">
+      <div className="container mx-auto py-8 px-4 flex justify-center h-screen items-center">
+        <Link to={"/"}>
+          <button className="flex justify-center items-center gap-1 m-5 absolute left-0 top-0">
+            <FontAwesomeIcon icon={faArrowLeft} />
+            HOME
+          </button>
+        </Link>
         <div className="bg-white rounded-lg shadow-lg p-8 h-5/6">
           <div className="flex justify-end cursor-pointer">
             <FontAwesomeIcon

@@ -11,6 +11,7 @@ import { Profile } from "../pages/Profile";
 import ProfileDetail from "../pages/ProfileDetail";
 import AddToCart from "../pages/AddToCart";
 import Orders from "../pages/Orders";
+import Checkout from "../pages/Checkout";
 
 export const routes = (isLoggedIn: boolean) => {
   if (!isLoggedIn) {
@@ -32,6 +33,7 @@ export const routes = (isLoggedIn: boolean) => {
       { path: "/profile", element: <Profile /> },
       { path: "/", element: <HomePage /> },
       { path: "/medicine", element: <Medicine /> },
+      { path: "/checkout", element: <Checkout /> },
 
       { path: "/product/details", element: <ProductDetailPage /> },
 
