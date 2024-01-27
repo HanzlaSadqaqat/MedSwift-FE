@@ -23,6 +23,7 @@ export const Login: React.FC = () => {
         email: email,
         password: password,
       });
+      
       setLoggedIn!(true);
       setEmail!(email);
 
